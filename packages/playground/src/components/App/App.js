@@ -6,7 +6,7 @@ import {testItems} from './images';
 import {mixAndSlice} from "../../utils/utils";
 import {SIDEBAR_WIDTH, ITEMS_BATCH_SIZE} from '../../constants/consts';
 import { resizeMediaUrl } from '../../utils/itemResizer';
-
+import {setStyleParamsInUrl} from '../../constants/styleParams'
 // import { ProFullscreen } from '@wix/pro-fullscreen-renderer';
 // import '@wix/pro-fullscreen-renderer/dist/statics/main.css';
 // import '@wix/pro-fullscreen-renderer/dist/src/assets/styles/fullscreen.global.scss';
@@ -24,6 +24,8 @@ export function App() {
   const {setDimentions, styleParams, setItems, items} = useGalleryContext();
   const [showSide, setShowSide] = useState(true);
   const [fullscreenIdx, setFullscreenIdx] = useState(-1);
+
+  setStyleParamsInUrl(styleParams);
 
   const switchState = () => {
     const width = showSide ? window.innerWidth : window.innerWidth - SIDEBAR_WIDTH;

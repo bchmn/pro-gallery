@@ -114,3 +114,16 @@
  -  remove utils isStoreGallery
  -  fix download url
 
+
+---
+## v1.2.13 (03/09/2019)
+ 
+#### GALLERY
+ -  rename play svg
+ -  bind setCurrentItemByScroll to this
+
+---
+## v1.2.14 (03/09/2019)
+ 
+#### GALLERY
+ -  remove comments from svg-fonts scss file (created errors in css dist file)

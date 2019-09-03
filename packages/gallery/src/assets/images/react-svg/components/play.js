@@ -8,7 +8,7 @@ const play = ({size, ...props}) => (
       <g id="Pause" transform="translate(-490 -763)" fill="currentColor">
         <g id="Group-2" transform="translate(470 284)">
           <g id="Group" transform="translate(20 479)">
-            <path id="Play" d="M0.0788076641 0L0 14 10.5 6.81856071z" />
+            <path id="play" d="M0.0788076641 0L0 14 10.5 6.81856071z" />
           </g>
         </g>
       </g>
