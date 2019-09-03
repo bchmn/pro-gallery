@@ -9,6 +9,7 @@ export const getInitialStyleParams = (gallery, galleryWidth, galleryHeight) => {
 const defaultStyleParams = {
   useRefactoredGalleryContainer: false,
   gotStyleParams: true,
+  isRTL: false,
   isVertical: 0,
   gallerySize: 30,
   minItemSize: 120,

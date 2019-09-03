@@ -759,7 +759,6 @@ class ItemView extends GalleryComponent {
     const itemStyles = {
       overflowY: styleParams.isSlideshow ? 'visible' : 'hidden',
       position: 'absolute',
-      right: 'auto',
       bottom: 'auto',
       margin: styleParams.oneRow ? styleParams.imageMargin + 'px' : 0,
     };
@@ -770,13 +769,19 @@ class ItemView extends GalleryComponent {
 
     const positionStyles = {
       top: offset.top,
-      left: offset.left,
       width: style.width,
       height: style.height + (styleParams.externalInfoHeight || 0),
     };
+    
+    const isRTL = true;
+    const rtlStyles = {
+      left: isRTL ? 'auto' : offset.left,
+      right: !isRTL ? 'auto' : offset.left,
+    };
 
     const styles = {
-      ...positionStyles,
+      // ...positionStyles,
+      // ...rtlStyles,
       ...itemStyles,
       ...transform,
       ...containerStyleByStyleParams,
