@@ -13,7 +13,6 @@ const getImageStyle = (item, styleParams) => ({
 });
 
 const createExactCssForItems = (galleryItems, styleParams) => {
-  debugger;
   const {isRTL} = styleParams;
 
   let cssStr = '';
