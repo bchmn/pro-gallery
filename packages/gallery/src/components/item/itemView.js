@@ -398,7 +398,6 @@ class ItemView extends GalleryComponent {
         showShare={this.state.showShare}
         isSmallItem={this.isSmallItem()}
         isNarrow={this.isNarrow()}
-        titlePlacement={this.props.styleParams.titlePlacement}
         shouldShowButton={shouldShowButton}
         actions={{
           eventsListener: this.props.actions.eventsListener,
