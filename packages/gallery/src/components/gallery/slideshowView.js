@@ -438,7 +438,7 @@ class SlideshowView extends GalleryComponent {
               )})`,
             };
             const thumbnailOffset = oneRow
-              ? { left: thumbnailSize * idx + 2 * idx * thumbnailSpacings }
+              ? { [this.props.styleParams.isRTL ? 'right' : 'left']: thumbnailSize * idx + 2 * idx * thumbnailSpacings }
               : { top: thumbnailSize * idx + 2 * idx * thumbnailSpacings };
             Object.assign(itemStyle, thumbnailOffset);
             return (
