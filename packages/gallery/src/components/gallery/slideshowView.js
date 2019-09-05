@@ -25,7 +25,8 @@ class SlideshowView extends GalleryComponent {
     this.startAutoSlideshowIfNeeded = this.startAutoSlideshowIfNeeded.bind(
       this,
     );
-    this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleSlideshowKeyPress = this.handleSlideshowKeyPress.bind(this);
+    this.onAutoSlideshowAutoPlayKeyPress = this.onAutoSlideshowAutoPlayKeyPress.bind(this);
     this.setCurrentItemByScroll = this.setCurrentItemByScroll.bind(this);
     this._setCurrentItemByScroll = utils.throttle(this.setCurrentItemByScroll, 600).bind(this);
     this._nextItem = utils.throttle(this.nextItem.bind(this), 400).bind(this);
@@ -208,7 +209,7 @@ class SlideshowView extends GalleryComponent {
     this.props.actions.scrollToItem(itemIdx, false, true, scrollDuration);
   }
 
-  handleKeypress(e) {
+  handleSlideshowKeyPress(e) {
     switch (e.charCode || e.keyCode) {
       case 38: //up
       case 37: //left
@@ -472,7 +473,7 @@ class SlideshowView extends GalleryComponent {
     }
   }
 
-  
+
   setCurrentItemByScroll() {
     if (utils.isVerbose()) {
       console.log('Setting current Idx by scroll', this.isAutoScrolling);
@@ -742,9 +743,9 @@ class SlideshowView extends GalleryComponent {
       >
         {this.createDebugMsg()}
         {this.createNavArrows()}
-        {this.createLayout()}
         {this.createAutoSlideShowPlayButton()}
         {this.createSlideShowNumbers()}
+        {this.createLayout()}
       </div>
     );
   }
@@ -763,6 +764,32 @@ class SlideshowView extends GalleryComponent {
     return this.props.container.galleryWidth >= utils.getWindowWidth() - 10;
   }
 
+  onAutoSlideshowAutoPlayKeyPress(e) {
+    switch (e.keyCode || e.charCode) {
+      case 32: //space
+      case 13: //enter
+        e.preventDefault();
+        e.stopPropagation();
+        this.onAutoSlideShowButtonClick();
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  calcSlideshowCounterWidth () {
+    const { totalItemsCount} = this.props;
+    if (totalItemsCount < 10) { // x/x
+      return 26;
+    } else if (totalItemsCount < 100) { // xx/xx
+      return 43;
+    } else if (totalItemsCount < 1000) { // xxx/xxx
+      return 60
+    } else { // xxxx/xxxx or more
+      return 76
+    }
+  }
+
   createAutoSlideShowPlayButton() {
     if (!this.shouldCreateSlideShowPlayButton) {
       return false;
@@ -773,12 +800,12 @@ class SlideshowView extends GalleryComponent {
 
     const imageMargin =
       this.props.styleParams.imageMargin + (this.isFullWidthGallery() ? 50 : 0);
+
     const side =
       galleryTextAlign === 'right'
         ? { left: `${imageMargin}px` }
         : {
-            right: `${imageMargin}px`,
-            width: this.shouldCreateSlideShowNumbers ? '60px' : '25px',
+            right: `${(imageMargin + (this.shouldCreateSlideShowNumbers ? this.calcSlideshowCounterWidth() : 0))}px`,
           };
     return (
       <button
@@ -786,12 +813,14 @@ class SlideshowView extends GalleryComponent {
         onClick={() => {
           this.onAutoSlideShowButtonClick();
         }}
+        onKeyDown={this.onAutoSlideshowAutoPlayKeyPress}
         data-hook="auto-slideshow-button"
+        title={'slideshow auto play'}
+        aria-label={'slideshow auto play'}
+        aria-pressed={this.state.shouldStopAutoSlideShow}
+        tabIndex={0}
         style={{
-          paddingTop: '23px',
-          background: 'white',
           top: `calc(100% - ${slideshowInfoSize}px + 3px)`,
-          height: '42px',
           ...side,
         }}
       >
@@ -827,17 +856,14 @@ class SlideshowView extends GalleryComponent {
 
     return (
       <div
-        className={'auto-slideshow-button'}
-        data-hook="auto-slideshow-button"
+        className={'auto-slideshow-counter'}
+        data-hook="auto-slideshow-counter"
         style={{
-          paddingTop: '23px',
-          background: 'white',
-          height: '42px',
           top: `calc(100% - ${slideshowInfoSize}px + 3px)`,
           ...side,
         }}
       >
-        <div style={{ fontSize: '15px', lineHeight: 'normal' }}>
+        <div>
           {this.state.currentIdx + 1 + '/' + totalItemsCount}
         </div>
       </div>
@@ -986,7 +1012,9 @@ class SlideshowView extends GalleryComponent {
       <div
         className={this.getClassNames()}
         style={this.getStyles()}
-        onKeyDown={this.handleKeypress}
+        onKeyDown={this.handleSlideshowKeyPress}
+        role="region"
+        aria-label="Gallery. you can navigate the gallery with keyboard arrow keys."
       >
         {thumbnails[0]}
         {gallery}
