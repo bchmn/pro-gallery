@@ -42,6 +42,10 @@ export function scrollToItemImp(scrollParams) {
     const item = items.find(itm => itm.idx === itemIdx);
     to = oneRow ? utils.get(item, 'offset.left') : utils.get(item, 'offset.top');
 
+    if (isRTL) {
+      to += item.width;
+    };
+
     if (utils.isVerbose()) {
       console.log('Scrolling to position ' + to, item);
     }
@@ -259,7 +263,7 @@ function horizontalCssScrollTo(scroller, from, to, duration, isRTL, callback = (
     scroller.scrollLeft = to;
     scroller.setAttribute('data-scrolling', '');
     typeof callback === 'function' && callback();
-  }, duration);
+  }, duration + 100);
 }
 
 export {

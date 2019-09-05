@@ -371,6 +371,11 @@ class SlideshowView extends GalleryComponent {
       }
     }
 
+    if (this.props.styleParams.isRTL) {
+      thumbnailsStyle.right = thumbnailsStyle.left;
+      delete thumbnailsStyle.left;
+    }
+
     let thumbnailsMargin;
     const thumbnailSpacings = this.props.styleParams.thumbnailSpacings;
     switch (this.props.styleParams.galleryThumbnailsAlignment) {
@@ -510,7 +515,7 @@ class SlideshowView extends GalleryComponent {
         item.offset.left >
         scrollLeft + this.props.container.galleryWidth / 2
       ) {
-        currentIdx = i - 1;
+        currentIdx = i - (this.props.styleParams.isRTL ? 2 : 1);
         break;
       }
     }
