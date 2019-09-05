@@ -106,7 +106,7 @@ class SlideshowView extends GalleryComponent {
   nextItem(direction, isAutoTrigger, scrollDuration = 400) {
     const currentIdx = this.setCurrentItemByScroll() || this.state.currentIdx;
     const { scrollToItem } = this.props.actions;
-    let nextItem = currentIdx + direction;
+    let nextItem = currentIdx + (direction * (this.props.styleParams.isRTL ? -1 : 1));
     this.isAutoScrolling = true;
 
     if (isAutoTrigger) {
@@ -496,8 +496,11 @@ class SlideshowView extends GalleryComponent {
       return;
     }
     this.startAutoSlideshowIfNeeded(this.props.styleParams);
-    const scrollLeft = (this.container && this.container.scrollLeft) || 0;
-
+    let scrollLeft = (this.container && this.container.scrollLeft) || 0;
+    if (this.props.styleParams.isRTL) {
+      scrollLeft = this.props.galleryStructure.width - scrollLeft; 
+    }
+    // console.log('[RTL SCROLL] setCurrentItemByScroll: ', scrollLeft);
     const items = this.props.galleryStructure.galleryItems;
 
     let currentIdx;
@@ -532,6 +535,9 @@ class SlideshowView extends GalleryComponent {
   }
 
   createNavArrows() {
+
+    const { isRTL, oneRow, arrowsColor, isSlideshow, slideshowInfoSize, imageMargin, arrowsSize, arrowsPosition } = this.props.styleParams;
+
     const shouldNotRenderNavArrows = this.props.galleryStructure.columns.some(
       column => {
         const allRenderedGroups =
@@ -541,7 +547,7 @@ class SlideshowView extends GalleryComponent {
           0,
         );
         const isAllItemsFitsGalleryWidth =
-          this.props.styleParams.oneRow &&
+          oneRow &&
           this.props.container.galleryWidth >= allGroupsWidth;
         return isAllItemsFitsGalleryWidth;
       },
@@ -560,28 +566,39 @@ class SlideshowView extends GalleryComponent {
 
     const svgStyle = {};
     if (utils.isMobile()) {
-      if (typeof this.props.styleParams.arrowsColor !== 'undefined') {
-        svgStyle.fill = this.props.styleParams.arrowsColor.value;
+      if (typeof arrowsColor !== 'undefined') {
+        svgStyle.fill = arrowsColor.value;
       }
     }
 
     // nav-arrows-container width is 100. arrowWidth + padding on each side should be 100
     const containerPadding = (100 - arrowWidth) / 2;
-    const slideshowSpace = this.props.styleParams.isSlideshow
-      ? this.props.styleParams.slideshowInfoSize
+    const slideshowSpace = isSlideshow
+      ? slideshowInfoSize
       : 0;
-    // top: this.props.styleParams.imageMargin effect the margin of the main div that SlideshowView is rendering, so the arrows should be places accordingly. 50% is the middle, 50px is half of nav-arrows-container height
+    // top: imageMargin effect the margin of the main div that SlideshowView is rendering, so the arrows should be places accordingly. 50% is the middle, 50px is half of nav-arrows-container height
     const containerStyle = {
       padding: `0 ${containerPadding}px 0 ${containerPadding}px`,
-      top: `calc(50% - 50px + ${this.props.styleParams.imageMargin /
+      top: `calc(50% - 50px + ${imageMargin /
         2}px - ${slideshowSpace / 2}px)`,
     };
+    // if (isRTL) {
+    //   containerStyle.transform = 'scaleX(-1)';
+    // };
     // Add negative positioning for external arrows. consists of arrow size, half of arrow container and padding
     const arrowsPos =
-      this.props.styleParams.oneRow && this.props.styleParams.arrowsPosition
-        ? `-${this.props.styleParams.arrowsSize + 50 + 10}px`
-        : `${this.props.styleParams.imageMargin}px`;
-    // left & right: this.props.styleParams.imageMargin effect the margin of the main div that SlideshowView is rendering, so the arrows should be places accordingly
+      oneRow && arrowsPosition
+        ? `-${arrowsSize + 50 + 10}px`
+        : `${imageMargin}px`;
+    // left & right: imageMargin effect the margin of the main div that SlideshowView is rendering, so the arrows should be places accordingly
+    // const prevContainerStyle = {
+    //   left: isRTL ? 'auto' : arrowsPos,
+    //   right: !isRTL ? 'auto' : arrowsPos,
+    // };
+    // const nextContainerStyle = {
+    //   right: isRTL ? 'auto' : arrowsPos,
+    //   left: !isRTL ? 'auto' : arrowsPos,
+    // };
     const prevContainerStyle = {
       left: arrowsPos,
     };
@@ -737,7 +754,8 @@ class SlideshowView extends GalleryComponent {
           'pro-gallery inline-styles one-row hide-scrollbars ' +
           (this.props.styleParams.enableScroll ? ' slider ' : '') +
           (this.props.styleParams.isAccessible ? ' accessible ' : '') +
-          (this.props.styleParams.isRTL ? ' rtl ' : '')
+          (this.props.styleParams.isRTL ? ' rtl ' : '') +
+          (this.props.styleParams.scrollSnap ? ' scroll-snap ' : '')
         }
         style={galleryStyle}
       >
