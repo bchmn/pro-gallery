@@ -172,7 +172,12 @@ class GalleryItem {
     let imgUrl = this.url;
 
     if (this.isText) {
-      return {};
+      return Object.assign(
+        {},
+        ...Object.values(URL_TYPES).map(value => ({
+          [value]: () => '',
+        })),
+      );
     } else if (this.isVideo) {
       imgUrl = this.poster;
 
@@ -212,10 +217,7 @@ class GalleryItem {
         focalPoint,
       );
 
-    urls[URL_TYPES.SEO] = () => ({
-      [URL_TYPES.HIGH_RES]: () =>
-        urls[URL_TYPES.HIGH_RES]().replace(/\.webp$/i, '.jpg'),
-    }); //SEO needs .jpg instead of .webp, replace does not mutate
+    urls[URL_TYPES.SEO] = () => urls[URL_TYPES.HIGH_RES]().replace(/\.webp$/i, '.jpg'); //SEO needs .jpg instead of .webp, replace does not mutate
 
     return urls;
   }
