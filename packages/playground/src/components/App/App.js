@@ -7,9 +7,9 @@ import {mixAndSlice} from "../../utils/utils";
 import {SIDEBAR_WIDTH, ITEMS_BATCH_SIZE} from '../../constants/consts';
 import { resizeMediaUrl } from '../../utils/itemResizer';
 import {setStyleParamsInUrl} from '../../constants/styleParams'
-// import { ProFullscreen } from '@wix/pro-fullscreen-renderer';
-// import '@wix/pro-fullscreen-renderer/dist/statics/main.css';
-// import '@wix/pro-fullscreen-renderer/dist/src/assets/styles/fullscreen.global.scss';
+import { ProFullscreen } from '@wix/pro-fullscreen-renderer';
+import '@wix/pro-fullscreen-renderer/dist/statics/main.css';
+import '@wix/pro-fullscreen-renderer/dist/src/assets/styles/fullscreen.global.scss';
 
 import { ProGallery } from 'pro-gallery';
 import GALLERY_EVENTS from 'pro-gallery/dist/src/constants/events';
@@ -95,15 +95,15 @@ export function App() {
           resizeMediaUrl={resizeMediaUrl}
         />
       </section>
-      {/* <section className={['pro-fullscreen-wrapper', s.fullscreen].join(' ')} style={{...container, opacity: (fullscreenIdx >= 0 ? 1 : 0), pointerEvents: (fullscreenIdx >= 0 ? 'initial' : 'none')}}>
+      <section className={['pro-fullscreen-wrapper', s.fullscreen].join(' ')} style={{...container, opacity: (fullscreenIdx >= 0 ? 1 : 0), pointerEvents: (fullscreenIdx >= 0 ? 'initial' : 'none')}}>
       fullscreenIdx >= 0 && (
           <ProFullscreen
-            items={images}
+            items={getItems()}
             initialIdx={fullscreenIdx}
             totalItemsCount={Infinity}
             container={container}
             actions={{
-              getMoreItems: () => setImages(images.concat(mixAndSlice(testItems, ITEMS_BATCH_SIZE))),
+              getMoreItems: () => {},
               close: () => setFullscreenIdx(-1),
             }}
             locale={'en'}
@@ -111,7 +111,7 @@ export function App() {
             styles={styleParams}
           />
         )
-        </section> */}
+        </section>
     </main>
   );
 }
