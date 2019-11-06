@@ -123,6 +123,7 @@ export class GalleryContainer extends React.Component {
 
     this.currentHoverChangeEvent = window.document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
     this.currentHoverChangeEvent.initCustomEvent('current_hover_change', false, false, null);
+    debugger;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -402,7 +403,7 @@ export class GalleryContainer extends React.Component {
       console.count('PROGALLERY [COUNT] reCreateGalleryExpensively');
       console.time('PROGALLERY [TIME] reCreateGalleryExpensively');
     }
-
+    
     const state = curState || this.state || {};
     this.isFullWidth = dimensionsHelper.isFullWidth(container); //keep this on top, before the container is recalculated
 
@@ -413,7 +414,6 @@ export class GalleryContainer extends React.Component {
       {...state, items: this.items},
     );
     const newState = {};
-
     if (utils.isVerbose()) {
       console.log('PROGALLERY reCreateGalleryExpensively', isNew, {
         items,
@@ -466,6 +466,7 @@ export class GalleryContainer extends React.Component {
         container,
         domId: this.props.domId,
       });
+      
       _styles = addLayoutStyles(styles);
       dimensionsHelper.updateParams({ styles: _styles });
       _container = Object.assign(
