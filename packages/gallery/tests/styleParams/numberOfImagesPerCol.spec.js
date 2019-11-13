@@ -1,7 +1,7 @@
-import GalleryDriverNew from '../galleryDriverNew/galleryDriver';
+import GalleryDriverNew from './galleryDriverNew/galleryDriver';
 import { expect } from 'chai';
-import { images } from '../../constants/items';
-import { styleParams, container } from '../../constants/styles';
+import { images } from '../constants/items';
+import { styleParams, container } from '../constants/styles';
 
 
 describe('styleParam - numberOfImagesPerCol', () => {
@@ -16,7 +16,7 @@ describe('styleParam - numberOfImagesPerCol', () => {
     beforeEach(() => {
         driver = new GalleryDriverNew();
         Object.assign(initialProps.styles, {
-            galleryLayout: 1,
+            galleryLayout: 2,
             oneRow: false,
             scrollDirection: 0,
             numberOfImagesPerCol: 1
@@ -29,7 +29,6 @@ describe('styleParam - numberOfImagesPerCol', () => {
 
     it('should set gallery as oneRow slider gallery', () => {
         Object.assign(initialProps.styles, {
-            galleryLayout: 2,
             oneRow: true,
             scrollDirection: 1,
             numberOfImagesPerCol: 1
@@ -41,7 +40,6 @@ describe('styleParam - numberOfImagesPerCol', () => {
 
     it('should render 1 images per col', () => {
         Object.assign(initialProps.styles, {
-            galleryLayout: 2,
             oneRow: true,
             scrollDirection: 1,
             numberOfImagesPerCol: 1
@@ -54,7 +52,6 @@ describe('styleParam - numberOfImagesPerCol', () => {
 
     it('should render 2 images per col', () => {
         Object.assign(initialProps.styles, {
-            galleryLayout: 2,
             oneRow: true,
             scrollDirection: 1,
             numberOfImagesPerCol: 2
@@ -69,7 +66,6 @@ describe('styleParam - numberOfImagesPerCol', () => {
 
         Object.assign(initialProps.styles, {
             numberOfImagesPerCol: 3,
-            galleryLayout: 2,
             oneRow: true,
         });
         driver.mountGallery(initialProps);

@@ -1,7 +1,7 @@
-import GalleryDriverNew from '../galleryDriverNew/galleryDriver';
+import GalleryDriverNew from './galleryDriverNew/galleryDriver';
 import { expect } from 'chai';
-import { images } from '../../constants/items';
-import { styleParams, container } from '../../constants/styles';
+import { images } from '../constants/items';
+import { styleParams, container } from '../constants/styles';
 
 describe('styleParam - numberOfImagesPerCol', () => {
 

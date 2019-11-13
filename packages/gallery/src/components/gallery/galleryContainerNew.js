@@ -123,7 +123,6 @@ export class GalleryContainer extends React.Component {
 
     this.currentHoverChangeEvent = window.document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
     this.currentHoverChangeEvent.initCustomEvent('current_hover_change', false, false, null);
-    debugger;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -817,7 +816,7 @@ export class GalleryContainer extends React.Component {
     const ssrDisableTransition =
       !!utils.isSSR() &&
       'div.pro-gallery-parent-container * { transition: none !important }';
-
+    
     return (
       <div
         data-key="pro-gallery-inner-container"
