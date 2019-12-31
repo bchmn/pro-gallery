@@ -473,12 +473,12 @@ const getLayoutName = (galleryLayout) => {
     'alternate', // 11
     'mix', // 12
   ];
-  return galleyLayoutList[galleryLayout]
+  return galleyLayoutList[galleryLayout + 1]
 }
 function getStyleByLayout(styles) {
   //new layouts
   let { galleryLayout } = styles;
-  let layoutName = getLayoutName(galleryLayout + 1); //the empty layout is -1, collage is 0 etc.
+  let layoutName = getLayoutName(galleryLayout); //the empty layout is -1, collage is 0 etc.
   
   if (utils.isUndefined(layoutName)) {
     galleryLayout = 0;
